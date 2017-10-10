@@ -62,7 +62,8 @@ public class WebPagesFilter implements Filter {
     HttpServletRequest httpServletRequest = (HttpServletRequest) request;
     HttpServletResponse httpServletResponse = (HttpServletResponse) response;
     String path = httpServletRequest.getRequestURI().replaceFirst(httpServletRequest.getContextPath(), "");
-    if (!URL_PATTERN.matches(path)) {
+    // "/" is a static resource but CONTEXT_PLACEHOLDER must be replaced so it must be excluded from the following test
+    if (!"/".equals(path) && !URL_PATTERN.matches(path)) {
       chain.doFilter(request, response);
       return;
     }
